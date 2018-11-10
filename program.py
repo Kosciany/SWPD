@@ -49,7 +49,7 @@ class Baza_wiedzy_materialow(pyknow.KnowledgeEngine):
         easygui.msgbox('Wybrano żeliwo białe', title=tytuł_okna)
 
     @pyknow.Rule(pyknow.AND(pyknow.Fact(wytrzymalosc="Normalna"),
-                            pyknow.Fact(plastycznosc="Niewymagana"),
+                            pyknow.Fact(plastycznosc="Wymagana"),
                             pyknow.Fact(odpornosc_na_korozje="Niewymagana")),
                  salience=1)
     def material_6(self):
@@ -63,7 +63,7 @@ class Baza_wiedzy_materialow(pyknow.KnowledgeEngine):
     def material_5(self):
         easygui.msgbox('Wybrano materiały polimerowe', title=tytuł_okna)
 
-    @pyknow.Rule(pyknow.AND(pyknow.Fact(wytrzymalosc="Podwyszona"),
+    @pyknow.Rule(pyknow.AND(pyknow.Fact(wytrzymalosc="Podwyższona"),
                             pyknow.Fact(koszt="Nie gra roli"),
                             pyknow.Fact(plastycznosc="Niewymagana"),
                             pyknow.Fact(odpornosc_na_korozje="Wymagana")),
@@ -97,12 +97,14 @@ class Baza_wiedzy_materialow(pyknow.KnowledgeEngine):
                 pyknow.AND(
                     pyknow.Fact(wytrzymalosc="Normalna"),
                     pyknow.Fact(koszt="Niski"),
+                    pyknow.Fact(plastycznosc="Wymagana"),
                     pyknow.Fact(odpornosc_na_korozje="Wymagana")),
-                    pyknow.Fact(plastycznosc="Wymagana")),
                 pyknow.AND(
                     pyknow.Fact(wytrzymalosc="Podwyższona"),
                     pyknow.Fact(koszt="Niski"),
-                    pyknow.Fact(odpornosc_na_korozje="Wymagana"))
+                    pyknow.Fact(odpornosc_na_korozje="Wymagana"),
+                    pyknow.Fact(plastycznosc=pyknow.W())
+                    ))
                     , salience=0)
     def material_0(self):
         easygui.msgbox('Nie ma materiału spełniającego podane kryteria', title=tytuł_okna)
@@ -111,4 +113,5 @@ class Baza_wiedzy_materialow(pyknow.KnowledgeEngine):
 engine = Baza_wiedzy_materialow()
 engine.reset()
 engine.run()
+print(engine.facts)
 

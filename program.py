@@ -9,6 +9,14 @@ def zwroc_odpowiedz(pytanie,możliwe_odpowiedzi):
     zwrot=easygui.buttonbox(pytanie, title=tytuł_okna, choices=możliwe_odpowiedzi)
     print(zwrot)
     return zwrot
+def zakoncz_program(silnik_wiedzy,nazwa_materialu):
+    silnik_wiedzy.declare(pyknow.Fact(rezultat = nazwa_materialu))
+    if nazwa_materialu is not 'Nie ma materiału spełniającego podane kryteria':
+        tekst = "Wybrano " + nazwa_materialu
+    else:
+        tekst = nazwa_materialu
+    easygui.msgbox(tekst, title=tytuł_okna)
+
 
 class Baza_wiedzy_materialow(pyknow.KnowledgeEngine):
     @pyknow.DefFacts()
@@ -24,9 +32,10 @@ class Baza_wiedzy_materialow(pyknow.KnowledgeEngine):
                             pyknow.Fact(koszt="Nie gra roli"),
                             pyknow.Fact(plastycznosc="Niewymagana"),
                             pyknow.Fact(odpornosc_na_korozje="Niewymagana")),
-                 salience=1) #salience - priorytet zasad, im wyższa liczba tym wyższy priorytet
+                 salience=0) #salience - priorytet zasad, im wyższa liczba tym wyższy priorytet
     def material_10(self): #funkcja która jest wykonywana, kiedy powyższa zasada jest spełniona
-        easygui.msgbox('Wybrano miedź', title=tytuł_okna)
+        zakoncz_program(self,"miedź")
+
 
     @pyknow.Rule(pyknow.AND(pyknow.Fact(wytrzymalosc="Normalna"),
                             pyknow.Fact(koszt="Nie gra roli"),
@@ -34,68 +43,69 @@ class Baza_wiedzy_materialow(pyknow.KnowledgeEngine):
                             pyknow.Fact(odpornosc_na_korozje="Wymagana")),
                  salience=1)
     def material_9(self):
-        easygui.msgbox('Wybrano ceramikę', title=tytuł_okna)
+        zakoncz_program(self, "ceramika")
+
 
     @pyknow.Rule(pyknow.AND(pyknow.Fact(wytrzymalosc="Normalna"),
                             pyknow.Fact(koszt="Nie gra roli"),
                             pyknow.Fact(plastycznosc="Wymagana"),
                             pyknow.Fact(odpornosc_na_korozje="Wymagana")),
-                 salience=1)
+                 salience=2)
     def material_8(self):
-        easygui.msgbox('Wybrano aluminium', title=tytuł_okna)
+        zakoncz_program(self,"aluminium")
 
     @pyknow.Rule(pyknow.AND(pyknow.Fact(wytrzymalosc="Normalna"),
                             pyknow.Fact(koszt="Niski"),
                             pyknow.Fact(plastycznosc="Niewymagana"),
                             pyknow.Fact(odpornosc_na_korozje="Niewymagana")),
-                 salience=1)
+                 salience=3)
     def material_7(self):
-        easygui.msgbox('Wybrano żeliwo białe', title=tytuł_okna)
+        zakoncz_program(self,"żeliwo białe")
 
     @pyknow.Rule(pyknow.AND(pyknow.Fact(wytrzymalosc="Normalna"),
                             pyknow.Fact(plastycznosc="Wymagana"),
                             pyknow.Fact(odpornosc_na_korozje="Niewymagana")),
-                 salience=1)
+                 salience=4)
     def material_6(self):
-        easygui.msgbox('Wybrano staliwo', title=tytuł_okna)
+        zakoncz_program(self, "staliwo")
 
     @pyknow.Rule(pyknow.AND(pyknow.Fact(wytrzymalosc="Normalna"),
                             pyknow.Fact(koszt="Niski"),
                             pyknow.Fact(plastycznosc="Niewymagana"),
                             pyknow.Fact(odpornosc_na_korozje="Wymagana")),
-                 salience=1)
+                 salience=5)
     def material_5(self):
-        easygui.msgbox('Wybrano materiały polimerowe', title=tytuł_okna)
+        zakoncz_program(self, "materiał polimerowe")
 
     @pyknow.Rule(pyknow.AND(pyknow.Fact(wytrzymalosc="Podwyższona"),
                             pyknow.Fact(koszt="Nie gra roli"),
                             pyknow.Fact(plastycznosc="Niewymagana"),
                             pyknow.Fact(odpornosc_na_korozje="Wymagana")),
-                 salience=1)
+                 salience=6)
     def material_4(self):
-        easygui.msgbox('Wybrano stal wysokostopową odporną na korozję', title=tytuł_okna)
+        zakoncz_program(self, "stal wysokostopową odporną na korozję")
 
     @pyknow.Rule(pyknow.AND(pyknow.Fact(wytrzymalosc="Podwyższona"),
                             pyknow.Fact(koszt="Nie gra roli"),
                             pyknow.Fact(plastycznosc="Wymagana"),
                             pyknow.Fact(odpornosc_na_korozje="Wymagana")),
-                 salience=1)
+                 salience=7)
     def material_3(self):
-        easygui.msgbox('Wybrano stal niskostopową odporną na korozję', title=tytuł_okna)
+        zakoncz_program(self, "stal niskostopową odporną na korozję")
 
     @pyknow.Rule(pyknow.AND(pyknow.Fact(wytrzymalosc="Podwyższona"),
                             pyknow.Fact(plastycznosc="Niewymagana"),
                             pyknow.Fact(odpornosc_na_korozje="Niewymagana")),
-                 salience=1)
+                 salience=8)
     def material_2(self):
-        easygui.msgbox('Wybrano żeliwo szare', title=tytuł_okna)
+        zakoncz_program(self, "żeliwo szare")
 
     @pyknow.Rule(pyknow.AND(pyknow.Fact(wytrzymalosc="Podwyższona"),
                             pyknow.Fact(plastycznosc="Wymagana"),
                             pyknow.Fact(odpornosc_na_korozje="Niewymagana")),
-                 salience=1)
+                 salience=9)
     def material_1(self):
-        easygui.msgbox('Wybrano stal niestopową konstrukcyjną', 'Baza wiedzy materialow')
+        zakoncz_program(self, "stal niestopową konstrukcyjną")
 
     @pyknow.Rule(pyknow.OR(
                 pyknow.AND(
@@ -109,7 +119,7 @@ class Baza_wiedzy_materialow(pyknow.KnowledgeEngine):
                     pyknow.Fact(odpornosc_na_korozje="Wymagana"),
                     pyknow.Fact(plastycznosc=pyknow.W())
                     ))
-                    , salience=0)
+                    , salience=10)
     def material_0(self):
         easygui.msgbox('Nie ma materiału spełniającego podane kryteria', title=tytuł_okna)
 
